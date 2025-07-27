@@ -15,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 import { finalize } from 'rxjs/operators';
 import {API} from '../api.constants';
 
@@ -54,7 +56,9 @@ interface FXRate {
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDividerModule,
+    MatChipsModule
   ],
   templateUrl: './lookup.component.html',
   styleUrl: './lookup.component.scss'

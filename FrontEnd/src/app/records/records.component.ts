@@ -13,6 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { finalize } from 'rxjs/operators';
 import {API} from '../api.constants';
 
@@ -56,7 +57,8 @@ interface ChangeHistory {
     MatSnackBarModule,
     MatSelectModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTooltipModule
   ],
   templateUrl: './records.component.html',
   styleUrl: './records.component.scss'

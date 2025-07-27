@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniFPAService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+268a67fa11e13d5a344e5eec738791fd3d3c39db")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed453f568b6e33904aab62a507697e491b821aaa")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniFPAService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniFPAService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
