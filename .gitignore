@@ -22,6 +22,10 @@
 **/*.log
 **/*.dmp
 
+BackEnd/MiniFPAService/bin/
+BackEnd/MiniFPAService/obj/
+
+
 # ===================================
 # Angular / Node.js Build Artifacts
 # ===================================
@@ -36,6 +40,14 @@
 **/npm-debug.log*
 **/yarn-debug.log*
 **/yarn-error.log*
+# Angular cache and temporary files
+.angular/
+.angular/cache/
+.angular/cache/**
+
+# Alternatively, just exclude all of it recursively:
+**/.angular/**
+
 
 # Angular specific
 **/.angular/cache/
