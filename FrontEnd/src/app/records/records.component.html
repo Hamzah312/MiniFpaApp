@@ -9,22 +9,31 @@
     <form [formGroup]="filterForm" (ngSubmit)="loadRecords()" class="filter-form">
       <mat-form-field appearance="outline">
         <mat-label>Scenario</mat-label>
-        <input matInput formControlName="scenario" placeholder="Enter scenario name">
+        <mat-select formControlName="scenario">
+          <mat-option value="">All Scenarios</mat-option>
+          <mat-option *ngFor="let scenario of scenarioOptions()" [value]="scenario">
+            {{ scenario }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       
       <mat-form-field appearance="outline">
         <mat-label>Account</mat-label>
-        <input matInput formControlName="account" placeholder="Enter account name">
+        <mat-select formControlName="account">
+          <mat-option value="">All Accounts</mat-option>
+          <mat-option *ngFor="let account of accountOptions()" [value]="account">
+            {{ account }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
         <mat-select formControlName="type">
           <mat-option value="">All Types</mat-option>
-          <mat-option value="Revenue">Revenue</mat-option>
-          <mat-option value="Expense">Expense</mat-option>
-          <mat-option value="Asset">Asset</mat-option>
-          <mat-option value="Liability">Liability</mat-option>
+          <mat-option *ngFor="let type of typeOptions" [value]="type">
+            {{ type }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       
@@ -110,7 +119,7 @@
 </mat-card>
 
 <!-- Audit Trail Section -->
-<mat-card class="audit-card" *ngIf="selectedRecordId() && auditTrail().length > 0">
+<mat-card class="audit-card" *ngIf="selectedRecordId() !== null">
   <mat-card-header>
     <mat-card-title>
       <mat-icon>history</mat-icon>
@@ -120,36 +129,29 @@
   
   <mat-progress-bar *ngIf="isLoadingAudit()" mode="indeterminate"></mat-progress-bar>
   
-  <mat-card-content>
+  <div *ngIf="auditTrail().length === 0 && !isLoadingAudit()" class="no-audit-data">
+    <mat-icon>info</mat-icon>
+    <p>No audit trail found for this record.</p>
+  </div>
+  
+  <mat-card-content *ngIf="auditTrail().length > 0">
     <div class="table-container">
       <table mat-table [dataSource]="auditTrail()" class="audit-table">
-        <ng-container matColumnDef="fieldName">
-          <th mat-header-cell *matHeaderCellDef>Field</th>
-          <td mat-cell *matCellDef="let audit">{{ audit.fieldName }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="oldValue">
-          <th mat-header-cell *matHeaderCellDef>Old Value</th>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let audit">
-            <code class="old-value">{{ audit.oldValue }}</code>
+            <mat-chip color="primary">{{ audit.action }}</mat-chip>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="newValue">
-          <th mat-header-cell *matHeaderCellDef>New Value</th>
-          <td mat-cell *matCellDef="let audit">
-            <code class="new-value">{{ audit.newValue }}</code>
-          </td>
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let audit">{{ audit.userName }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="changeDate">
-          <th mat-header-cell *matHeaderCellDef>Change Date</th>
-          <td mat-cell *matCellDef="let audit">{{ audit.changeDate | date:'medium' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="changedBy">
-          <th mat-header-cell *matHeaderCellDef>Changed By</th>
-          <td mat-cell *matCellDef="let audit">{{ audit.changedBy }}</td>
+        <ng-container matColumnDef="timestamp">
+          <th mat-header-cell *matHeaderCellDef>Date & Time</th>
+          <td mat-cell *matCellDef="let audit">{{ audit.timestamp | date:'medium' }}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="auditColumns"></tr>

@@ -38,3 +38,25 @@
   width: 64px;
   color: #999;
 }
+
+.no-audit-data {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+}
+
+.no-audit-data mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: #999;
+  margin-bottom: 16px;
+}
+
+.audit-card {
+  margin-bottom: 24px;
+}
+
+.audit-table {
+  width: 100%;
+}

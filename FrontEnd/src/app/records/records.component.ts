@@ -32,13 +32,12 @@ interface FinancialRecord {
 }
 
 interface ChangeHistory {
-  id: number;
+  id: string;
   recordId: number;
-  fieldName: string;
-  oldValue: string;
-  newValue: string;
-  changeDate: string;
-  changedBy: string;
+  action: string;
+  userName: string;
+  timestamp: string;
+  financialRecord?: any;
 }
 
 @Component({
@@ -70,8 +69,13 @@ export class RecordsComponent implements OnInit {
   isLoading = signal(false);
   isLoadingAudit = signal(false);
   displayedColumns = ['scenario', 'version', 'account', 'period', 'amount', 'currency', 'department', 'actions'];
-  auditColumns = ['fieldName', 'oldValue', 'newValue', 'changeDate', 'changedBy'];
+  auditColumns = ['action', 'userName', 'timestamp'];
   selectedRecordId = signal<number | null>(null);
+  
+  // Options for dropdowns
+  scenarioOptions = signal<string[]>([]);
+  accountOptions = signal<string[]>([]);
+  typeOptions = ['Actual', 'Budget'];
 
   constructor(
     private fb: FormBuilder,
@@ -88,6 +92,26 @@ export class RecordsComponent implements OnInit {
   ngOnInit() {
     // Load some sample data by default
     this.loadRecords();
+    this.loadFilterOptions();
+  }
+
+  loadFilterOptions() {
+    // Load unique scenarios and accounts from all records
+    this.http.get<FinancialRecord[]>(API.FINANCE_RECORDS)
+      .subscribe({
+        next: (data) => {
+          const scenarios = [...new Set(data.map(r => r.scenario))];
+          const accounts = [...new Set(data.map(r => r.account))];
+          this.scenarioOptions.set(scenarios);
+          this.accountOptions.set(accounts);
+        },
+        error: (error) => {
+          console.error('Error loading filter options:', error);
+          // Set some default options
+          this.scenarioOptions.set(['Default', 'budget', 'TestScenario', 'OptimisticBudget']);
+          this.accountOptions.set(['1000-SALES', '2000-MARKET', '3000-TECH']);
+        }
+      });
   }
 
   loadRecords() {
@@ -126,19 +150,23 @@ export class RecordsComponent implements OnInit {
   loadAuditTrail(recordId: number) {
     this.isLoadingAudit.set(true);
     this.selectedRecordId.set(recordId);
+    
+    console.log('Loading audit trail for record:', recordId);
 
     this.http.get<ChangeHistory[]>(API.RECORDS_AUDIT(recordId))
       .pipe(finalize(() => this.isLoadingAudit.set(false)))
       .subscribe({
         next: (data) => {
+          console.log('Audit trail data received:', data);
           this.auditTrail.set(data);
           this.snackBar.open(`Loaded ${data.length} audit entries`, 'Close', { duration: 2000 });
         },
         error: (error) => {
           console.error('Error loading audit trail:', error);
           this.snackBar.open('Failed to load audit trail', 'Close', { duration: 3000 });
-          // Show mock audit data
-          this.showMockAuditData();
+          // Clear audit trail on error
+          this.auditTrail.set([]);
+          this.selectedRecordId.set(null);
         }
       });
   }
@@ -146,22 +174,18 @@ export class RecordsComponent implements OnInit {
   private showMockAuditData() {
     const mockAudit: ChangeHistory[] = [
       {
-        id: 1,
+        id: '1',
         recordId: this.selectedRecordId()!,
-        fieldName: 'Amount',
-        oldValue: '150000',
-        newValue: '155000',
-        changeDate: '2024-01-16T14:30:00Z',
-        changedBy: 'john.doe@company.com'
+        action: 'Imported',
+        userName: 'john.doe@company.com',
+        timestamp: '2024-01-16T14:30:00Z'
       },
       {
-        id: 2,
+        id: '2',
         recordId: this.selectedRecordId()!,
-        fieldName: 'Department',
-        oldValue: 'Sales',
-        newValue: 'Marketing',
-        changeDate: '2024-01-15T10:45:00Z',
-        changedBy: 'jane.smith@company.com'
+        action: 'Updated',
+        userName: 'jane.smith@company.com',
+        timestamp: '2024-01-15T10:45:00Z'
       }
     ];
     this.auditTrail.set(mockAudit);
