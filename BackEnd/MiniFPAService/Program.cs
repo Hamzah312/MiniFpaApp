@@ -41,6 +41,9 @@ public class Program
         {
             var db = scope.ServiceProvider.GetRequiredService<MiniFPAService.Data.ApplicationDbContext>();
             db.Database.EnsureCreated();
+            
+            // Seed demo data
+            db.SeedData();
         }
 
         // Configure the HTTP request pipeline.

@@ -2,12 +2,12 @@
 
 @include mat.core();
 
-// Define a custom theme using Material 3
+// Define a custom dark theme using Material 3
 $fpa-theme: mat.define-theme((
   color: (
-    theme-type: light,
-    primary: mat.$azure-palette,
-    tertiary: mat.$blue-palette,
+    theme-type: dark,
+    primary: mat.$violet-palette,
+    tertiary: mat.$cyan-palette,
   ),
   typography: (
     brand-family: 'Roboto',
@@ -25,8 +25,204 @@ html, body {
   height: 100%; 
   margin: 0; 
   font-family: Roboto, "Helvetica Neue", sans-serif; 
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Application container styles */
+.app-container {
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+/* Card enhancements */
+.mat-mdc-card {
+  margin: 16px;
+  background-color: #1e1e1e !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mat-mdc-card-header {
+  padding: 24px 24px 16px 24px !important;
+}
+
+.mat-mdc-card-content {
+  padding: 0 24px 24px 24px !important;
+}
+
+/* Form styling */
+.mat-mdc-form-field {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.form-row .mat-mdc-form-field {
+  margin-bottom: 0;
+}
+
+/* Button styling */
+.mat-mdc-raised-button,
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  margin: 8px;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+/* Table styling */
+.mat-mdc-table {
+  background-color: #1e1e1e !important;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.mat-mdc-header-row {
+  background-color: #2d2d2d !important;
+}
+
+.mat-mdc-row:hover {
+  background-color: #333333 !important;
+}
+
+/* Chip styling */
+.mat-mdc-chip {
+  margin: 2px 4px;
+}
+
+/* Tab styling */
+.mat-mdc-tab-group {
+  margin: 16px 0;
+}
+
+.mat-mdc-tab-body-content {
+  padding: 24px;
+  background-color: #1e1e1e;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Navigation styling */
+.nav-container {
+  background-color: #1e1e1e !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Divider styling */
+.mat-divider {
+  border-top-color: #333333;
+  margin: 16px 0;
+}
+
+/* Content spacing */
+.content-section {
+  margin: 24px 0;
+}
+
+.section-header {
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* Progress bar styling */
+.mat-mdc-progress-bar {
+  margin: 16px 0;
+  border-radius: 4px;
+}
+
+/* Dialog styling */
+.mat-mdc-dialog-container {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+}
+
+/* Snackbar styling */
+.mat-mdc-snack-bar-container {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* File upload area */
+.upload-area {
+  border: 2px dashed #666666;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  background-color: #1e1e1e;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #888888;
+    background-color: #2d2d2d;
+  }
+  
+  &.dragover {
+    border-color: mat.get-theme-color($fpa-theme, primary);
+    background-color: rgba(mat.get-theme-color($fpa-theme, primary), 0.1);
+  }
+}
+
+/* Stats cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.stat-card {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: mat.get-theme-color($fpa-theme, primary);
+    margin-bottom: 8px;
+  }
+  
+  .stat-label {
+    color: #cccccc;
+    font-size: 0.875rem;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .mat-mdc-card {
+    margin: 8px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Card styles */

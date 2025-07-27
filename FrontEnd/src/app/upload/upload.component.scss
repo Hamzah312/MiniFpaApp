@@ -1,2 +1,219 @@
-// Component-specific styles are handled in the global styles.scss
-// This file is kept for potential future component-specific styling
+.upload-container {
+  max-width: 800px;
+  margin: 24px auto;
+  padding: 20px;
+}
+
+.upload-card {
+  background-color: #1e1e1e !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mat-mdc-card-header {
+  .mat-mdc-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    font-size: 1.5rem;
+    
+    mat-icon {
+      color: #8b5cf6;
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+  
+  .mat-mdc-card-subtitle {
+    color: #cccccc;
+    margin-top: 8px;
+  }
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.file-input-container {
+  border: 2px dashed #666666;
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #2d2d2d;
+  margin: 24px 0;
+  
+  &:hover {
+    border-color: #8b5cf6;
+    background-color: #333333;
+  }
+  
+  &.dragover {
+    border-color: #8b5cf6;
+    background-color: rgba(139, 92, 246, 0.1);
+    transform: scale(1.02);
+  }
+  
+  .upload-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #8b5cf6;
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    color: #ffffff;
+    margin: 16px 0 8px 0;
+    font-size: 1.25rem;
+  }
+  
+  p {
+    color: #cccccc;
+    margin: 8px 0;
+    
+    &.file-info {
+      font-size: 0.875rem;
+      color: #999999;
+    }
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.file-selected {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #333333;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-left: 4px solid #8b5cf6;
+  
+  mat-icon {
+    color: #8b5cf6;
+  }
+  
+  span {
+    color: #ffffff;
+    
+    &.file-size {
+      color: #cccccc;
+      font-size: 0.875rem;
+    }
+  }
+  
+  button {
+    margin-left: auto;
+  }
+}
+
+.progress-container {
+  margin: 24px 0;
+  
+  p {
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  mat-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+  }
+}
+
+.upload-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 24px;
+  
+  button {
+    min-width: 140px;
+    height: 48px;
+    border-radius: 8px;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.upload-result {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #1e1e1e;
+  border-left: 4px solid #8b5cf6;
+  
+  &.success {
+    border-left-color: #10b981;
+    
+    h3 {
+      color: #10b981;
+    }
+  }
+  
+  &.error {
+    border-left-color: #ef4444;
+    
+    h3 {
+      color: #ef4444;
+    }
+  }
+  
+  h3 {
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    mat-icon {
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+  
+  p {
+    color: #cccccc;
+    margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .upload-container {
+    margin: 16px;
+    padding: 16px;
+  }
+  
+  .file-input-container {
+    padding: 24px 16px;
+    
+    .upload-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+    }
+    
+    h3 {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .upload-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}

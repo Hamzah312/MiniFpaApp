@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { NavigationComponent } from './navigation/navigation.component';
+import { HomeComponent } from './home/home.component';
 import { UploadComponent } from './upload/upload.component';
 import { RecordsComponent } from './records/records.component';
 import { ScenariosComponent } from './scenarios/scenarios.component';
@@ -11,7 +12,8 @@ export const routes: Routes = [
     path: '',
     component: NavigationComponent,
     children: [
-      { path: '', redirectTo: '/upload', pathMatch: 'full' },
+      { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'upload', component: UploadComponent },
       { path: 'records', component: RecordsComponent },
       { path: 'scenarios', component: ScenariosComponent },
@@ -19,5 +21,5 @@ export const routes: Routes = [
       { path: 'lookup', component: LookupComponent }
     ]
   },
-  { path: '**', redirectTo: '/upload' }
+  { path: '**', redirectTo: '/' }
 ];
