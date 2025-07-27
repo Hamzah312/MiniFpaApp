@@ -220,38 +220,4 @@ cd FrontEnd
 ng build --prod
 ```
 
-## 📱 Screenshots
-
-### Home Dashboard
-![Dashboard](./docs/dashboard.png)
-
-### Data Import
-![Upload](./docs/upload.png)
-
-### Financial Records
-![Records](./docs/records.png)
-
-### Reporting Dashboard
-![Reports](./docs/reports.png)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🔗 Links
-
-- **Repository**: [https://github.com/Hamzah312/MiniFpaApp](https://github.com/Hamzah312/MiniFpaApp)
-- **Issues**: [Report bugs or request features](https://github.com/Hamzah312/MiniFpaApp/issues)
-- **Documentation**: [API Documentation](http://localhost:5000/swagger) (when running)
-
----
-
 **Ready for demo!** 🎉 This application showcases modern full-stack development with real-world financial planning features.
