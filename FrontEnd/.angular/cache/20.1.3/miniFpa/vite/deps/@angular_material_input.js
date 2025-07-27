@@ -1,15 +1,28 @@
 import {
+  MatFormFieldModule
+} from "./chunk-RPMY4UWQ.js";
+import {
+  MAT_INPUT_VALUE_ACCESSOR
+} from "./chunk-Z3C6E7J5.js";
+import {
   MAT_FORM_FIELD,
   MatError,
   MatFormField,
   MatFormFieldControl,
-  MatFormFieldModule,
   MatHint,
   MatLabel,
   MatPrefix,
   MatSuffix
-} from "./chunk-6KN7GNMH.js";
+} from "./chunk-IJB5EBPU.js";
 import "./chunk-7Y2JSQ4V.js";
+import {
+  ErrorStateMatcher,
+  _ErrorStateTracker
+} from "./chunk-TNK2BMYW.js";
+import {
+  AutofillMonitor,
+  TextFieldModule
+} from "./chunk-BGMCFGFO.js";
 import {
   FormGroupDirective,
   NgControl,
@@ -17,32 +30,28 @@ import {
   Validators
 } from "./chunk-4XMLAF4V.js";
 import {
-  AutofillMonitor,
-  TextFieldModule
-} from "./chunk-EQUDTSY6.js";
-import {
   getSupportedInputTypes
 } from "./chunk-W7C2VMLI.js";
-import "./chunk-B4UJAYTN.js";
 import "./chunk-QCETVJKM.js";
-import "./chunk-EOFW2REK.js";
 import {
   coerceBooleanProperty
-} from "./chunk-KAPXTIMC.js";
+} from "./chunk-DQ7OVFPD.js";
+import "./chunk-ZTIMHPRN.js";
 import {
   MatCommonModule,
   _IdGenerator
-} from "./chunk-YFC422EO.js";
+} from "./chunk-IEZIRWUB.js";
+import "./chunk-EOFW2REK.js";
 import "./chunk-74LDFDFE.js";
+import "./chunk-URT457JE.js";
 import {
   Platform
-} from "./chunk-WTXWI7C7.js";
+} from "./chunk-DVBSTIWW.js";
 import "./chunk-47H7T5FC.js";
 import "./chunk-636JCMZ5.js";
 import {
   Directive,
   ElementRef,
-  Injectable,
   InjectionToken,
   Input,
   NgModule,
@@ -58,7 +67,6 @@ import {
   ɵɵattribute,
   ɵɵclassProp,
   ɵɵdefineDirective,
-  ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdomProperty,
@@ -68,81 +76,6 @@ import {
   Subject
 } from "./chunk-A5H7RJDV.js";
 import "./chunk-WDMUDEB6.js";
-
-// node_modules/@angular/material/fesm2022/input-value-accessor-D1GvPuqO.mjs
-var MAT_INPUT_VALUE_ACCESSOR = new InjectionToken("MAT_INPUT_VALUE_ACCESSOR");
-
-// node_modules/@angular/material/fesm2022/error-options-DCNQlTOA.mjs
-var ShowOnDirtyErrorStateMatcher = class _ShowOnDirtyErrorStateMatcher {
-  isErrorState(control, form) {
-    return !!(control && control.invalid && (control.dirty || form && form.submitted));
-  }
-  static ɵfac = function ShowOnDirtyErrorStateMatcher_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ShowOnDirtyErrorStateMatcher)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _ShowOnDirtyErrorStateMatcher,
-    factory: _ShowOnDirtyErrorStateMatcher.ɵfac
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ShowOnDirtyErrorStateMatcher, [{
-    type: Injectable
-  }], null, null);
-})();
-var ErrorStateMatcher = class _ErrorStateMatcher {
-  isErrorState(control, form) {
-    return !!(control && control.invalid && (control.touched || form && form.submitted));
-  }
-  static ɵfac = function ErrorStateMatcher_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _ErrorStateMatcher)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _ErrorStateMatcher,
-    factory: _ErrorStateMatcher.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ErrorStateMatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-
-// node_modules/@angular/material/fesm2022/error-state-Dtb1IHM-.mjs
-var _ErrorStateTracker = class {
-  _defaultMatcher;
-  ngControl;
-  _parentFormGroup;
-  _parentForm;
-  _stateChanges;
-  /** Whether the tracker is currently in an error state. */
-  errorState = false;
-  /** User-defined matcher for the error state. */
-  matcher;
-  constructor(_defaultMatcher, ngControl, _parentFormGroup, _parentForm, _stateChanges) {
-    this._defaultMatcher = _defaultMatcher;
-    this.ngControl = ngControl;
-    this._parentFormGroup = _parentFormGroup;
-    this._parentForm = _parentForm;
-    this._stateChanges = _stateChanges;
-  }
-  /** Updates the error state based on the provided error state matcher. */
-  updateErrorState() {
-    const oldState = this.errorState;
-    const parent = this._parentFormGroup || this._parentForm;
-    const matcher = this.matcher || this._defaultMatcher;
-    const control = this.ngControl ? this.ngControl.control : null;
-    const newState = matcher?.isErrorState(control, parent) ?? false;
-    if (newState !== oldState) {
-      this.errorState = newState;
-      this._stateChanges.next();
-    }
-  }
-};
 
 // node_modules/@angular/material/fesm2022/input.mjs
 function getMatInputUnsupportedTypeError(type) {

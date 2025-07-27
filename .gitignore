@@ -1,1 +1,70 @@
+# ===================================
+# .NET Core / ASP.NET Build Artifacts
+# ===================================
+**/bin/
 **/obj/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+**/.vs/
+**/packages/
+*.nupkg
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# Publish folders
+**/publish/
+**/wwwroot/
+
+# ASP.NET logs
+**/*.log
+**/*.dmp
+
+# ===================================
+# Angular / Node.js Build Artifacts
+# ===================================
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+**/.cache/
+**/.eslintcache
+**/.env
+**/.env.*.local
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# Angular specific
+**/.angular/cache/
+
+# ===================================
+# IDE Files
+# ===================================
+**/.idea/
+**/.vscode/
+**/.vs/
+
+# ===================================
+# OS Specific Files
+# ===================================
+*.DS_Store
+.DS_Store?
+*.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===================================
+# Temporary Files
+# ===================================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.swn

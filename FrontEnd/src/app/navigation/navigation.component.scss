@@ -21,6 +21,20 @@
 .navigation-tabs a {
   min-width: 120px;
   color: #ffffff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(139, 92, 246, 0.1);
+  }
+  
+  &.active-tab {
+    background-color: rgba(139, 92, 246, 0.2);
+    color: #8b5cf6;
+    
+    mat-icon {
+      color: #8b5cf6;
+    }
+  }
 }
 
 .navigation-tabs a mat-icon {

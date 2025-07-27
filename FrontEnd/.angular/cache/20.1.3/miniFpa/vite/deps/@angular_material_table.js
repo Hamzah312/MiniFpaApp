@@ -1,24 +1,30 @@
 import {
-  DataSource,
+  _DisposeViewRepeaterStrategy
+} from "./chunk-63GXTBGO.js";
+import {
   ScrollingModule,
-  ViewportRuler,
+  ViewportRuler
+} from "./chunk-ZYMKRLL7.js";
+import {
+  DataSource,
   _RecycleViewRepeaterStrategy,
   _VIEW_REPEATER_STRATEGY,
   _ViewRepeaterOperation,
   isDataSource
-} from "./chunk-PJBIOIAV.js";
-import "./chunk-EOFW2REK.js";
-import "./chunk-KAPXTIMC.js";
+} from "./chunk-UTLXDH6E.js";
+import "./chunk-DQ7OVFPD.js";
 import {
   MatCommonModule
-} from "./chunk-YFC422EO.js";
+} from "./chunk-IEZIRWUB.js";
+import "./chunk-EOFW2REK.js";
 import {
   Directionality
 } from "./chunk-74LDFDFE.js";
+import "./chunk-URT457JE.js";
 import {
   Platform,
   _isNumberValue
-} from "./chunk-WTXWI7C7.js";
+} from "./chunk-DVBSTIWW.js";
 import "./chunk-47H7T5FC.js";
 import "./chunk-636JCMZ5.js";
 import {
@@ -32,7 +38,6 @@ import {
   ElementRef,
   EventEmitter,
   HostAttributeToken,
-  Injectable,
   InjectionToken,
   Injector,
   Input,
@@ -59,7 +64,6 @@ import {
   ɵɵcontentQuery,
   ɵɵdefineComponent,
   ɵɵdefineDirective,
-  ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵelementContainer,
@@ -88,37 +92,6 @@ import {
   takeUntil
 } from "./chunk-A5H7RJDV.js";
 import "./chunk-WDMUDEB6.js";
-
-// node_modules/@angular/cdk/fesm2022/dispose-view-repeater-strategy-Cvpav0PR.mjs
-var _DisposeViewRepeaterStrategy = class {
-  applyChanges(changes, viewContainerRef, itemContextFactory, itemValueResolver, itemViewChanged) {
-    changes.forEachOperation((record, adjustedPreviousIndex, currentIndex) => {
-      let view;
-      let operation;
-      if (record.previousIndex == null) {
-        const insertContext = itemContextFactory(record, adjustedPreviousIndex, currentIndex);
-        view = viewContainerRef.createEmbeddedView(insertContext.templateRef, insertContext.context, insertContext.index);
-        operation = _ViewRepeaterOperation.INSERTED;
-      } else if (currentIndex == null) {
-        viewContainerRef.remove(adjustedPreviousIndex);
-        operation = _ViewRepeaterOperation.REMOVED;
-      } else {
-        view = viewContainerRef.get(adjustedPreviousIndex);
-        viewContainerRef.move(view, currentIndex);
-        operation = _ViewRepeaterOperation.MOVED;
-      }
-      if (itemViewChanged) {
-        itemViewChanged({
-          context: view?.context,
-          operation,
-          record
-        });
-      }
-    });
-  }
-  detach() {
-  }
-};
 
 // node_modules/@angular/cdk/fesm2022/table.mjs
 var _c0 = [[["caption"]], [["colgroup"], ["col"]], "*"];
@@ -2712,52 +2685,6 @@ var CdkTableModule = class _CdkTableModule {
     args: [{
       exports: EXPORTED_DECLARATIONS,
       imports: [ScrollingModule, ...EXPORTED_DECLARATIONS]
-    }]
-  }], null, null);
-})();
-
-// node_modules/@angular/cdk/fesm2022/unique-selection-dispatcher-Cewa_Eg3.mjs
-var UniqueSelectionDispatcher = class _UniqueSelectionDispatcher {
-  _listeners = [];
-  /**
-   * Notify other items that selection for the given name has been set.
-   * @param id ID of the item.
-   * @param name Name of the item.
-   */
-  notify(id, name) {
-    for (let listener of this._listeners) {
-      listener(id, name);
-    }
-  }
-  /**
-   * Listen for future changes to item selection.
-   * @return Function used to deregister listener
-   */
-  listen(listener) {
-    this._listeners.push(listener);
-    return () => {
-      this._listeners = this._listeners.filter((registered) => {
-        return listener !== registered;
-      });
-    };
-  }
-  ngOnDestroy() {
-    this._listeners = [];
-  }
-  static ɵfac = function UniqueSelectionDispatcher_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _UniqueSelectionDispatcher)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _UniqueSelectionDispatcher,
-    factory: _UniqueSelectionDispatcher.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UniqueSelectionDispatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
     }]
   }], null, null);
 })();
