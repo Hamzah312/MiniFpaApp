@@ -24,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class NavigationComponent {
   navLinks = [
-    { path: '/', label: 'Home', icon: 'home' },
+    { path: '/home', label: 'Home', icon: 'home' },
     { path: '/upload', label: 'Upload', icon: 'upload_file' },
     { path: '/records', label: 'Records', icon: 'table_view' },
     { path: '/scenarios', label: 'Scenarios', icon: 'account_tree' },
