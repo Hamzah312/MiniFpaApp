@@ -96,20 +96,62 @@ export class ScenariosComponent implements OnInit {
   loadScenarios() {
     this.isLoading.set(true);
 
-    this.http.get<Scenario[]>(API.Scenarios)
+    // Since there's no direct scenarios endpoint, we'll get unique scenarios from records
+    this.http.get<any[]>(API.FINANCE_RECORDS)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
-        next: (data) => {
-          this.scenarios.set(data);
-          this.snackBar.open(`Loaded ${data.length} scenarios`, 'Close', { duration: 3000 });
+        next: (records) => {
+          const scenarioMap = new Map<string, Scenario>();
+          
+          records.forEach(record => {
+            const key = `${record.scenario}-${record.version}`;
+            if (!scenarioMap.has(key)) {
+              scenarioMap.set(key, {
+                id: scenarioMap.size + 1,
+                name: record.scenario,
+                version: record.version,
+                description: `Scenario: ${record.scenario}`,
+                createdDate: record.uploadDate,
+                lastModified: record.uploadDate,
+                recordCount: 0
+              });
+            }
+            scenarioMap.get(key)!.recordCount++;
+          });
+
+          this.scenarios.set(Array.from(scenarioMap.values()));
+          this.snackBar.open(`Loaded ${scenarioMap.size} scenarios`, 'Close', { duration: 3000 });
         },
         error: (error) => {
           console.error('Error loading scenarios:', error);
           this.snackBar.open('Failed to load scenarios', 'Close', { duration: 3000 });
-          // Show mock data for demo purposes
-          this.showMockData();
+          this.showMockScenarios();
         }
       });
+  }
+
+  private showMockScenarios() {
+    const mockData: Scenario[] = [
+      {
+        id: 1,
+        name: 'Budget2024',
+        version: 'v1',
+        description: 'Annual budget for 2024',
+        createdDate: '2024-01-01T00:00:00Z',
+        lastModified: '2024-01-15T10:30:00Z',
+        recordCount: 1250
+      },
+      {
+        id: 2,
+        name: 'Forecast2024',
+        version: 'v2',
+        description: 'Q1 forecast revision',
+        createdDate: '2024-02-01T00:00:00Z',
+        lastModified: '2024-02-15T14:20:00Z',
+        recordCount: 890
+      }
+    ];
+    this.scenarios.set(mockData);
   }
 
   cloneScenario(scenario: Scenario) {
@@ -129,13 +171,12 @@ export class ScenariosComponent implements OnInit {
     this.isLoading.set(true);
 
     const cloneRequest = {
-      sourceScenario: scenario.name,
-      sourceVersion: scenario.version,
-      targetScenario: newName,
-      targetVersion: newVersion
+      baseScenario: scenario.name,
+      newScenario: newName,
+      adjustments: []
     };
 
-    this.http.post(API.ScenariosClone, cloneRequest)
+    this.http.post(API.SCENARIOS_CLONE, cloneRequest)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: () => {

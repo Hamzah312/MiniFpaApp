@@ -264,15 +264,4 @@ export class LookupComponent implements OnInit {
     this.fxRates.set(mockData);
     this.isLoadingFX.set(false);
   }
-
-  getAccountTypeColor(accountType: string): string {
-    switch (accountType) {
-      case 'Revenue': return 'primary';
-      case 'Expense': return 'warn';
-      case 'Asset': return 'accent';
-      case 'Liability': return 'warn';
-      case 'Equity': return 'primary';
-      default: return '';
-    }
-  }
 }

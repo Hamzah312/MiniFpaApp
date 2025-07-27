@@ -13,8 +13,19 @@
       </mat-form-field>
       
       <mat-form-field appearance="outline">
-        <mat-label>Version</mat-label>
-        <input matInput formControlName="version" placeholder="Enter version">
+        <mat-label>Account</mat-label>
+        <input matInput formControlName="account" placeholder="Enter account name">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="">All Types</mat-option>
+          <mat-option value="Revenue">Revenue</mat-option>
+          <mat-option value="Expense">Expense</mat-option>
+          <mat-option value="Asset">Asset</mat-option>
+          <mat-option value="Liability">Liability</mat-option>
+        </mat-select>
       </mat-form-field>
       
       <button mat-raised-button color="primary" type="submit" [disabled]="isLoading()">
@@ -40,7 +51,9 @@
       <table mat-table [dataSource]="records()" class="records-table">
         <ng-container matColumnDef="scenario">
           <th mat-header-cell *matHeaderCellDef>Scenario</th>
-          <td mat-cell *matCellDef="let record">{{ record.scenario }}</td>
+          <td mat-cell *matCellDef="let record">
+            <mat-chip color="primary">{{ record.scenario }}</mat-chip>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="version">
@@ -60,16 +73,87 @@
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let record">{{ record.amount | currency:record.currency }}</td>
+          <td mat-cell *matCellDef="let record" [class.negative]="record.amount < 0">
+            {{ record.amount | currency:record.currency }}
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="uploadDate">
-          <th mat-header-cell *matHeaderCellDef>Upload Date</th>
-          <td mat-cell *matCellDef="let record">{{ record.uploadDate | date:'short' }}</td>
+        <ng-container matColumnDef="currency">
+          <th mat-header-cell *matHeaderCellDef>Currency</th>
+          <td mat-cell *matCellDef="let record">{{ record.currency }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef>Department</th>
+          <td mat-cell *matCellDef="let record">
+            <mat-chip *ngIf="record.department" color="accent">{{ record.department }}</mat-chip>
+            <span *ngIf="!record.department" class="no-data">-</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let record">
+            <button mat-icon-button (click)="loadAuditTrail(record.id)" 
+                    [disabled]="isLoadingAudit()" 
+                    matTooltip="View Audit Trail">
+              <mat-icon>history</mat-icon>
+            </button>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Audit Trail Section -->
+<mat-card class="audit-card" *ngIf="selectedRecordId() && auditTrail().length > 0">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>history</mat-icon>
+      Audit Trail for Record #{{ selectedRecordId() }}
+    </mat-card-title>
+  </mat-card-header>
+  
+  <mat-progress-bar *ngIf="isLoadingAudit()" mode="indeterminate"></mat-progress-bar>
+  
+  <mat-card-content>
+    <div class="table-container">
+      <table mat-table [dataSource]="auditTrail()" class="audit-table">
+        <ng-container matColumnDef="fieldName">
+          <th mat-header-cell *matHeaderCellDef>Field</th>
+          <td mat-cell *matCellDef="let audit">{{ audit.fieldName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="oldValue">
+          <th mat-header-cell *matHeaderCellDef>Old Value</th>
+          <td mat-cell *matCellDef="let audit">
+            <code class="old-value">{{ audit.oldValue }}</code>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="newValue">
+          <th mat-header-cell *matHeaderCellDef>New Value</th>
+          <td mat-cell *matCellDef="let audit">
+            <code class="new-value">{{ audit.newValue }}</code>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="changeDate">
+          <th mat-header-cell *matHeaderCellDef>Change Date</th>
+          <td mat-cell *matCellDef="let audit">{{ audit.changeDate | date:'medium' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="changedBy">
+          <th mat-header-cell *matHeaderCellDef>Changed By</th>
+          <td mat-cell *matCellDef="let audit">{{ audit.changedBy }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="auditColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: auditColumns;"></tr>
       </table>
     </div>
   </mat-card-content>

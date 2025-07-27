@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hamzehakram/DataRails/MiniFPAApp/BackEnd/MiniFPAService/MiniFPAService.csproj": {}
+    "/workspaces/MiniFpaApp/BackEnd/MiniFPAService/MiniFPAService.csproj": {}
   },
   "projects": {
-    "/Users/hamzehakram/DataRails/MiniFPAApp/BackEnd/MiniFPAService/MiniFPAService.csproj": {
+    "/workspaces/MiniFpaApp/BackEnd/MiniFPAService/MiniFPAService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hamzehakram/DataRails/MiniFPAApp/BackEnd/MiniFPAService/MiniFPAService.csproj",
+        "projectUniqueName": "/workspaces/MiniFpaApp/BackEnd/MiniFPAService/MiniFPAService.csproj",
         "projectName": "MiniFPAService",
-        "projectPath": "/Users/hamzehakram/DataRails/MiniFPAApp/BackEnd/MiniFPAService/MiniFPAService.csproj",
-        "packagesPath": "/Users/hamzehakram/.nuget/packages/",
-        "outputPath": "/Users/hamzehakram/DataRails/MiniFPAApp/BackEnd/MiniFPAService/obj/",
+        "projectPath": "/workspaces/MiniFpaApp/BackEnd/MiniFPAService/MiniFPAService.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/MiniFpaApp/BackEnd/MiniFPAService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/hamzehakram/.nuget/NuGet/NuGet.Config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.412/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

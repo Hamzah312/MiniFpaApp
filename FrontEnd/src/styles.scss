@@ -5,7 +5,7 @@
 // Define a custom theme using Material 3
 $fpa-theme: mat.define-theme((
   color: (
-    theme-type: dark,
+    theme-type: light,
     primary: mat.$azure-palette,
     tertiary: mat.$blue-palette,
   ),
@@ -25,10 +25,75 @@ html, body {
   height: 100%; 
   margin: 0; 
   font-family: Roboto, "Helvetica Neue", sans-serif; 
-  background-color: #303030;
-  color: #ffffff;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
+/* Card styles */
+.mat-mdc-card {
+  margin: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Form styles */
+.form-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.form-row .mat-mdc-form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.filter-form, .report-form, .account-form, .fx-form, .lookup-form {
+  .form-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+}
+
+/* Table styles */
+.table-container {
+  margin-top: 16px;
+  overflow-x: auto;
+  
+  table {
+    width: 100%;
+    
+    .mat-mdc-cell, .mat-mdc-header-cell {
+      padding: 8px 16px;
+    }
+    
+    .negative {
+      color: #f44336;
+      font-weight: 500;
+    }
+    
+    .positive {
+      color: #4caf50;
+      font-weight: 500;
+    }
+    
+    .no-data {
+      color: #999;
+      font-style: italic;
+    }
+  }
+}
+
+/* Component specific styles */
 .upload-container {
   display: flex;
   justify-content: center;
@@ -43,9 +108,87 @@ html, body {
   width: 100%;
 }
 
-.form-field {
-  width: 100%;
-  margin-bottom: 16px;
+.records-card, .audit-card, .scenarios-card, .report-card, .lookup-card {
+  margin: 16px;
+  
+  .mat-mdc-card-header {
+    background-color: rgba(63, 81, 181, 0.1);
+    margin: -16px -16px 16px -16px;
+    padding: 16px;
+    
+    .mat-mdc-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+  }
+}
+
+.reports-container, .lookup-container {
+  .mat-mdc-tab-group {
+    .mat-mdc-tab-body-content {
+      padding: 0;
+    }
+  }
+}
+
+.add-form-section, .lookup-section, .results-section {
+  margin-bottom: 24px;
+  
+  h3 {
+    color: #1976d2;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+}
+
+.results-section {
+  margin-top: 24px;
+  
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* Progress bar styles */
+.mat-mdc-progress-bar {
+  margin: 16px 0;
+}
+
+/* Button styles */
+.mat-mdc-raised-button {
+  margin: 0 8px 0 0;
+  
+  .mat-icon {
+    margin-right: 8px;
+  }
+}
+
+/* Chip styles */
+.mat-mdc-chip {
+  margin: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+  }
+  
+  .mat-mdc-card {
+    margin: 8px;
+  }
+  
+  .table-container {
+    font-size: 14px;
+  }
 }
 
 .file-input-container {

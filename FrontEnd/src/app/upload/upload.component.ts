@@ -103,7 +103,7 @@ export class UploadComponent {
       formData.append('userName', userName);
 
       // Use relative URL with proxy
-      this.http.post(API.UPLOAD, formData, {
+      this.http.post(API.FINANCE_UPLOAD, formData, {
         reportProgress: true,
         observe: 'events'
       })
