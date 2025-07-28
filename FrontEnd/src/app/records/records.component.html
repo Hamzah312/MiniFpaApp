@@ -31,16 +31,32 @@
         <mat-label>Type</mat-label>
         <mat-select formControlName="type">
           <mat-option value="">All Types</mat-option>
-          <mat-option *ngFor="let type of typeOptions" [value]="type">
+          <mat-option *ngFor="let type of typeOptions()" [value]="type">
             {{ type }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Department</mat-label>
+        <mat-select formControlName="department">
+          <mat-option value="">All Departments</mat-option>
+          <mat-option *ngFor="let dept of departmentOptions()" [value]="dept">
+            {{ dept }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       
-      <button mat-raised-button color="primary" type="submit" [disabled]="isLoading()">
-        <mat-icon>search</mat-icon>
-        Load Records
-      </button>
+      <div class="filter-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading()">
+          <mat-icon>search</mat-icon>
+          Apply Filters
+        </button>
+        <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="isLoading()">
+          <mat-icon>clear</mat-icon>
+          Clear
+        </button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>
@@ -97,6 +113,14 @@
           <td mat-cell *matCellDef="let record">
             <mat-chip *ngIf="record.department" color="accent">{{ record.department }}</mat-chip>
             <span *ngIf="!record.department" class="no-data">-</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let record">
+            <mat-chip *ngIf="record.type" [color]="record.type === 'Actual' ? 'primary' : 'warn'">{{ record.type }}</mat-chip>
+            <span *ngIf="!record.type" class="no-data">-</span>
           </td>
         </ng-container>
 

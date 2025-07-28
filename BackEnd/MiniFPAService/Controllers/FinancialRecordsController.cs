@@ -53,10 +53,28 @@ namespace MiniFPAService.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<FinancialRecord>>> GetAll()
+        public async Task<ActionResult<List<FinancialRecord>>> GetAll(
+            [FromQuery] string? scenario = null,
+            [FromQuery] string? account = null,
+            [FromQuery] string? type = null,
+            [FromQuery] string? department = null)
         {
             var records = await _service.GetAllAsync();
-            return Ok(records);
+            
+            // Apply filters if provided
+            if (!string.IsNullOrEmpty(scenario))
+                records = records.Where(r => r.Scenario.Contains(scenario, StringComparison.OrdinalIgnoreCase)).ToList();
+                
+            if (!string.IsNullOrEmpty(account))
+                records = records.Where(r => r.Account.Contains(account, StringComparison.OrdinalIgnoreCase)).ToList();
+                
+            if (!string.IsNullOrEmpty(type))
+                records = records.Where(r => r.Type.Equals(type, StringComparison.OrdinalIgnoreCase)).ToList();
+                
+            if (!string.IsNullOrEmpty(department))
+                records = records.Where(r => !string.IsNullOrEmpty(r.Department) && r.Department.Contains(department, StringComparison.OrdinalIgnoreCase)).ToList();
+            
+            return Ok(records.OrderByDescending(r => r.UploadTimestamp));
         }
 
         [HttpGet("type/{type}")]

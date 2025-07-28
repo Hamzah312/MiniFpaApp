@@ -12,24 +12,37 @@
         
         <mat-card-content>
           <form [formGroup]="summaryForm" (ngSubmit)="generateSummaryReport()" class="report-form">
-            <div class="form-row">
-              <mat-form-field appearance="outline">
-                <mat-label>Scenario</mat-label>
-                <input matInput formControlName="scenario" placeholder="Enter scenario">
-              </mat-form-field>
-              
-              <mat-form-field appearance="outline">
-                <mat-label>Account</mat-label>
-                <input matInput formControlName="account" placeholder="Enter account">
-              </mat-form-field>
-              
-              <mat-form-field appearance="outline">
-                <mat-label>Department</mat-label>
-                <input matInput formControlName="department" placeholder="Enter department">
-              </mat-form-field>
-            </div>
-            
-            <div class="form-row">
+        <div class="form-row">
+          <mat-form-field>
+            <mat-label>Scenario</mat-label>
+            <mat-select formControlName="scenario">
+              <mat-option value="">All Scenarios</mat-option>
+              @for (scenario of scenarioOptions(); track scenario) {
+                <mat-option [value]="scenario">{{ scenario }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Account</mat-label>
+            <mat-select formControlName="account">
+              <mat-option value="">All Accounts</mat-option>
+              @for (account of accountOptions(); track account) {
+                <mat-option [value]="account">{{ account }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="department">
+              <mat-option value="">All Departments</mat-option>
+              @for (department of departmentOptions(); track department) {
+                <mat-option [value]="department">{{ department }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>            <div class="form-row">
               <mat-form-field appearance="outline">
                 <mat-label>From Date</mat-label>
                 <input matInput [matDatepicker]="fromPicker" formControlName="from">
@@ -103,12 +116,22 @@
             <div class="form-row">
               <mat-form-field appearance="outline">
                 <mat-label>Account</mat-label>
-                <input matInput formControlName="account" placeholder="Enter account">
+                <mat-select formControlName="account">
+                  <mat-option value="">All Accounts</mat-option>
+                  @for (account of accountOptions(); track account) {
+                    <mat-option [value]="account">{{ account }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <mat-form-field appearance="outline">
                 <mat-label>Scenario</mat-label>
-                <input matInput formControlName="scenario" placeholder="Enter scenario">
+                <mat-select formControlName="scenario">
+                  <mat-option value="">All Scenarios</mat-option>
+                  @for (scenario of scenarioOptions(); track scenario) {
+                    <mat-option [value]="scenario">{{ scenario }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <button mat-raised-button color="primary" type="submit" [disabled]="isLoadingMonthly()">
@@ -160,12 +183,22 @@
             <div class="form-row">
               <mat-form-field appearance="outline">
                 <mat-label>Scenario *</mat-label>
-                <input matInput formControlName="scenario" placeholder="Enter scenario" required>
+                <mat-select formControlName="scenario" required>
+                  <mat-option value="">Select Scenario</mat-option>
+                  @for (scenario of scenarioOptions(); track scenario) {
+                    <mat-option [value]="scenario">{{ scenario }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <mat-form-field appearance="outline">
                 <mat-label>Account *</mat-label>
-                <input matInput formControlName="account" placeholder="Enter account" required>
+                <mat-select formControlName="account" required>
+                  <mat-option value="">Select Account</mat-option>
+                  @for (account of accountOptions(); track account) {
+                    <mat-option [value]="account">{{ account }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <mat-form-field appearance="outline">
@@ -177,7 +210,12 @@
             <div class="form-row">
               <mat-form-field appearance="outline">
                 <mat-label>Department</mat-label>
-                <input matInput formControlName="department" placeholder="Enter department">
+                <mat-select formControlName="department">
+                  <mat-option value="">All Departments</mat-option>
+                  @for (department of departmentOptions(); track department) {
+                    <mat-option [value]="department">{{ department }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <button mat-raised-button color="primary" type="submit" [disabled]="isLoadingDrilldown() || !drilldownForm.valid">
@@ -239,12 +277,22 @@
             <div class="form-row">
               <mat-form-field appearance="outline">
                 <mat-label>Base Scenario *</mat-label>
-                <input matInput formControlName="baseScenario" placeholder="Enter base scenario" required>
+                <mat-select formControlName="baseScenario" required>
+                  <mat-option value="">Select Base Scenario</mat-option>
+                  @for (scenario of scenarioOptions(); track scenario) {
+                    <mat-option [value]="scenario">{{ scenario }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <mat-form-field appearance="outline">
                 <mat-label>Target Scenario *</mat-label>
-                <input matInput formControlName="targetScenario" placeholder="Enter target scenario" required>
+                <mat-select formControlName="targetScenario" required>
+                  <mat-option value="">Select Target Scenario</mat-option>
+                  @for (scenario of scenarioOptions(); track scenario) {
+                    <mat-option [value]="scenario">{{ scenario }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
               
               <mat-form-field appearance="outline">

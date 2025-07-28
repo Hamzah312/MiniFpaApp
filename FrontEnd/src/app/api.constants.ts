@@ -20,6 +20,9 @@ export const API = {
   REPORTS_COMPARE: `${API_BASE_URL}/reports/compare`,
   
   // Lookup
+  LOOKUP_SCENARIOS: `${API_BASE_URL}/lookup/scenarios`,
+  LOOKUP_ACCOUNTS: `${API_BASE_URL}/lookup/accounts`,
+  LOOKUP_DEPARTMENTS: `${API_BASE_URL}/lookup/departments`,
   LOOKUP_FX_RATES: `${API_BASE_URL}/lookup/fx-rates`,
   LOOKUP_FX_RATE: (fromCurrency: string, toCurrency: string, period: string) => 
     `${API_BASE_URL}/lookup/fxrates/${fromCurrency}/${toCurrency}/${period}`,

@@ -73,7 +73,7 @@ interface ComparisonReport {
   templateUrl: './report.component.html',
   styleUrl: './report.component.scss'
 })
-export class ReportComponent {
+export class ReportComponent implements OnInit {
   summaryForm: FormGroup;
   monthlyForm: FormGroup;
   drilldownForm: FormGroup;
@@ -88,6 +88,11 @@ export class ReportComponent {
   isLoadingMonthly = signal(false);
   isLoadingDrilldown = signal(false);
   isLoadingComparison = signal(false);
+
+  // Filter options signals
+  scenarioOptions = signal<string[]>([]);
+  accountOptions = signal<string[]>([]);
+  departmentOptions = signal<string[]>([]);
 
   summaryColumns = ['account', 'department', 'scenario', 'totalAmount'];
   monthlyColumns = ['month', 'total'];
@@ -124,6 +129,30 @@ export class ReportComponent {
       targetScenario: ['', Validators.required],
       period: ['', Validators.required],
       includeDepartment: [false]
+    });
+  }
+
+  ngOnInit() {
+    this.loadFilterOptions();
+  }
+
+  private loadFilterOptions() {
+    // Load scenarios
+    this.http.get<string[]>(`${API.LOOKUP_SCENARIOS}`).subscribe({
+      next: (scenarios) => this.scenarioOptions.set(scenarios),
+      error: (error) => console.error('Error loading scenarios:', error)
+    });
+
+    // Load accounts
+    this.http.get<string[]>(`${API.LOOKUP_ACCOUNTS}`).subscribe({
+      next: (accounts) => this.accountOptions.set(accounts),
+      error: (error) => console.error('Error loading accounts:', error)
+    });
+
+    // Load departments
+    this.http.get<string[]>(`${API.LOOKUP_DEPARTMENTS}`).subscribe({
+      next: (departments) => this.departmentOptions.set(departments),
+      error: (error) => console.error('Error loading departments:', error)
     });
   }
 
