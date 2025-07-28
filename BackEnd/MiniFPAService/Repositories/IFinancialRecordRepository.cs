@@ -19,7 +19,7 @@ namespace MiniFPAService.Repositories
         Task<List<FinancialRecord>> GetByScenarioAndVersionAsync(string scenario, string version);
         
         // FEATURE 4: Drill-Down Reporting
-        Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string department = null);
+        Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string? department = null);
         
         // FEATURE 3: Lookup Tables
         Task<FXRate> GetFXRateAsync(string fromCurrency, string toCurrency, string period);
@@ -34,6 +34,11 @@ namespace MiniFPAService.Repositories
         
         // FEATURE 2: SCENARIO COMPARISON
         Task<List<FinancialRecord>> GetByScenarioAndPeriodAsync(string scenario, string period);
+        
+        // DROPDOWN FILTERS
+        Task<List<string>> GetUniqueScenariosAsync();
+        Task<List<string>> GetUniqueAccountsAsync();
+        Task<List<string>> GetUniqueDepartmentsAsync();
     }
 }
 

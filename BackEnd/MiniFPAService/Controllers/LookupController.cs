@@ -66,5 +66,27 @@ namespace MiniFPAService.Controllers
 
             return Ok(accountMap);
         }
+
+        // New lookup endpoints for dropdown filters
+        [HttpGet("scenarios")]
+        public async Task<IActionResult> GetScenarios()
+        {
+            var scenarios = await _repository.GetUniqueScenariosAsync();
+            return Ok(scenarios);
+        }
+
+        [HttpGet("accounts")]
+        public async Task<IActionResult> GetAccounts()
+        {
+            var accounts = await _repository.GetUniqueAccountsAsync();
+            return Ok(accounts);
+        }
+
+        [HttpGet("departments")]
+        public async Task<IActionResult> GetDepartments()
+        {
+            var departments = await _repository.GetUniqueDepartmentsAsync();
+            return Ok(departments);
+        }
     }
 }

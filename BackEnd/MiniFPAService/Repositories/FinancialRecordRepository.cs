@@ -62,7 +62,7 @@ namespace MiniFPAService.Repositories
         }
 
         // FEATURE 4: Drill-Down Reporting
-        public async Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string department = null)
+        public async Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string? department = null)
         {
             var query = _context.FinancialRecords
                 .Where(r => r.Scenario == scenario && r.Account == account);
@@ -151,6 +151,37 @@ namespace MiniFPAService.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        // DROPDOWN FILTERS
+        public async Task<List<string>> GetUniqueScenariosAsync()
+        {
+            return await _context.FinancialRecords
+                .Select(r => r.Scenario)
+                .Distinct()
+                .Where(s => !string.IsNullOrEmpty(s))
+                .OrderBy(s => s)
+                .ToListAsync();
+        }
+
+        public async Task<List<string>> GetUniqueAccountsAsync()
+        {
+            return await _context.FinancialRecords
+                .Select(r => r.Account)
+                .Distinct()
+                .Where(a => !string.IsNullOrEmpty(a))
+                .OrderBy(a => a)
+                .ToListAsync();
+        }
+
+        public async Task<List<string>> GetUniqueDepartmentsAsync()
+        {
+            return await _context.FinancialRecords
+                .Select(r => r.Department)
+                .Distinct()
+                .Where(d => !string.IsNullOrEmpty(d))
+                .OrderBy(d => d)
+                .ToListAsync();
         }
     }
 }
