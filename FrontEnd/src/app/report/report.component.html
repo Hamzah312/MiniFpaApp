@@ -202,8 +202,19 @@
               </mat-form-field>
               
               <mat-form-field appearance="outline">
-                <mat-label>Period *</mat-label>
-                <input matInput formControlName="period" placeholder="e.g., 2024-01" required>
+                <mat-label>From Date *</mat-label>
+                <input matInput [matDatepicker]="drilldownFromPicker" formControlName="fromDate" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="drilldownFromPicker"></mat-datepicker-toggle>
+                <mat-datepicker #drilldownFromPicker></mat-datepicker>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>To Date *</mat-label>
+                <input matInput [matDatepicker]="drilldownToPicker" formControlName="toDate" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="drilldownToPicker"></mat-datepicker-toggle>
+                <mat-datepicker #drilldownToPicker></mat-datepicker>
               </mat-form-field>
             </div>
             
@@ -296,8 +307,19 @@
               </mat-form-field>
               
               <mat-form-field appearance="outline">
-                <mat-label>Period *</mat-label>
-                <input matInput formControlName="period" placeholder="e.g., 2024-01" required>
+                <mat-label>From Date *</mat-label>
+                <input matInput [matDatepicker]="comparisonFromPicker" formControlName="fromDate" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="comparisonFromPicker"></mat-datepicker-toggle>
+                <mat-datepicker #comparisonFromPicker></mat-datepicker>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>To Date *</mat-label>
+                <input matInput [matDatepicker]="comparisonToPicker" formControlName="toDate" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="comparisonToPicker"></mat-datepicker-toggle>
+                <mat-datepicker #comparisonToPicker></mat-datepicker>
               </mat-form-field>
             </div>
             

@@ -120,14 +120,16 @@ export class ReportComponent implements OnInit {
     this.drilldownForm = this.fb.group({
       scenario: ['', Validators.required],
       account: ['', Validators.required],
-      period: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
       department: ['']
     });
 
     this.comparisonForm = this.fb.group({
       baseScenario: ['', Validators.required],
       targetScenario: ['', Validators.required],
-      period: ['', Validators.required],
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
       includeDepartment: [false]
     });
   }
@@ -216,7 +218,15 @@ export class ReportComponent implements OnInit {
     
     const queryParams = new URLSearchParams();
     Object.keys(params).forEach(key => {
-      if (params[key]) queryParams.append(key, params[key]);
+      if (params[key]) {
+        if (key === 'fromDate' || key === 'toDate') {
+          // Format date as YYYY-MM-DD
+          const date = new Date(params[key]);
+          queryParams.append(key, date.toISOString().split('T')[0]);
+        } else {
+          queryParams.append(key, params[key]);
+        }
+      }
     });
 
     const url = `${API.REPORTS_DRILLDOWN}?${queryParams.toString()}`;
@@ -244,8 +254,14 @@ export class ReportComponent implements OnInit {
     
     const queryParams = new URLSearchParams();
     Object.keys(params).forEach(key => {
-      if (params[key] !== undefined && params[key] !== null) {
-        queryParams.append(key, params[key].toString());
+      if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
+        if (key === 'fromDate' || key === 'toDate') {
+          // Format date as YYYY-MM-DD
+          const date = new Date(params[key]);
+          queryParams.append(key, date.toISOString().split('T')[0]);
+        } else {
+          queryParams.append(key, params[key].toString());
+        }
       }
     });
 

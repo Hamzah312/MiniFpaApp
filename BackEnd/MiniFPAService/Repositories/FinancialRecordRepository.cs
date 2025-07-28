@@ -62,19 +62,22 @@ namespace MiniFPAService.Repositories
         }
 
         // FEATURE 4: Drill-Down Reporting
-        public async Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string? department = null)
+        public async Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, DateTime? fromDate = null, DateTime? toDate = null, string? department = null)
         {
             var query = _context.FinancialRecords
                 .Where(r => r.Scenario == scenario && r.Account == account);
 
-            // Parse period (e.g., "2024-01")
-            if (!string.IsNullOrEmpty(period) && period.Contains("-"))
+            // Apply date range filter
+            if (fromDate.HasValue)
             {
-                var parts = period.Split('-');
-                if (parts.Length == 2 && int.TryParse(parts[0], out int year) && int.TryParse(parts[1], out int month))
-                {
-                    query = query.Where(r => r.Year == year && r.Month == month);
-                }
+                query = query.Where(r => r.Year > fromDate.Value.Year || 
+                                        (r.Year == fromDate.Value.Year && r.Month >= fromDate.Value.Month));
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(r => r.Year < toDate.Value.Year || 
+                                        (r.Year == toDate.Value.Year && r.Month <= toDate.Value.Month));
             }
 
             if (!string.IsNullOrEmpty(department))
@@ -135,19 +138,22 @@ namespace MiniFPAService.Repositories
         }
 
         // FEATURE 2: SCENARIO COMPARISON
-        public async Task<List<FinancialRecord>> GetByScenarioAndPeriodAsync(string scenario, string period)
+        public async Task<List<FinancialRecord>> GetByScenarioAndDateRangeAsync(string scenario, DateTime? fromDate = null, DateTime? toDate = null)
         {
             var query = _context.FinancialRecords
                 .Where(r => r.Scenario == scenario);
 
-            // Parse period (e.g., "2024-07")
-            if (!string.IsNullOrEmpty(period) && period.Contains("-"))
+            // Apply date range filter
+            if (fromDate.HasValue)
             {
-                var parts = period.Split('-');
-                if (parts.Length == 2 && int.TryParse(parts[0], out int year) && int.TryParse(parts[1], out int month))
-                {
-                    query = query.Where(r => r.Year == year && r.Month == month);
-                }
+                query = query.Where(r => r.Year > fromDate.Value.Year || 
+                                        (r.Year == fromDate.Value.Year && r.Month >= fromDate.Value.Month));
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(r => r.Year < toDate.Value.Year || 
+                                        (r.Year == toDate.Value.Year && r.Month <= toDate.Value.Month));
             }
 
             return await query.ToListAsync();

@@ -20,7 +20,7 @@ namespace MiniFPAService.Services
         Task<string> CloneScenarioAsync(ScenarioCloneRequestDto request);
         
         // FEATURE 4: Drill-Down Reporting
-        Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string department = null);
+        Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, DateTime? fromDate = null, DateTime? toDate = null, string? department = null);
         
         // Enhanced upload with scenario and version
         Task ProcessExcelUploadAsync(List<FinancialRecordDto> dtos, string scenario, string version, string userName = "System");
@@ -29,6 +29,6 @@ namespace MiniFPAService.Services
         Task<List<ChangeHistory>> GetRecordAuditTrailAsync(int recordId);
         
         // FEATURE 2: SCENARIO COMPARISON
-        Task<List<ScenarioComparisonDto>> CompareScenarios(string baseScenario, string targetScenario, string period, bool includeDepartment = false);
+        Task<List<ScenarioComparisonDto>> CompareScenarios(string baseScenario, string targetScenario, DateTime? fromDate = null, DateTime? toDate = null, bool includeDepartment = false);
     }
 }

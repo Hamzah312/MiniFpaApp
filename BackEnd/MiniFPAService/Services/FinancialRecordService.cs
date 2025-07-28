@@ -124,9 +124,9 @@ namespace MiniFPAService.Services
         }
 
         // FEATURE 4: Drill-Down Reporting
-        public async Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, string period, string department = null)
+        public async Task<List<FinancialRecord>> GetDrilldownAsync(string scenario, string account, DateTime? fromDate = null, DateTime? toDate = null, string? department = null)
         {
-            return await _repository.GetDrilldownAsync(scenario, account, period, department);
+            return await _repository.GetDrilldownAsync(scenario, account, fromDate, toDate, department);
         }
 
         // Enhanced upload with scenario and version
@@ -179,41 +179,62 @@ namespace MiniFPAService.Services
         }
 
         // FEATURE 2: SCENARIO COMPARISON
-        public async Task<List<ScenarioComparisonDto>> CompareScenarios(string baseScenario, string targetScenario, string period, bool includeDepartment = false)
+        public async Task<List<ScenarioComparisonDto>> CompareScenarios(string baseScenario, string targetScenario, DateTime? fromDate = null, DateTime? toDate = null, bool includeDepartment = false)
         {
-            var baseRecords = await _repository.GetByScenarioAndPeriodAsync(baseScenario, period);
-            var targetRecords = await _repository.GetByScenarioAndPeriodAsync(targetScenario, period);
+            var baseRecords = await _repository.GetByScenarioAndDateRangeAsync(baseScenario, fromDate, toDate);
+            var targetRecords = await _repository.GetByScenarioAndDateRangeAsync(targetScenario, fromDate, toDate);
 
             var comparison = new List<ScenarioComparisonDto>();
 
-            // Group records by Account (and Department if requested)
-            var baseGroups = includeDepartment
-                ? baseRecords.GroupBy(r => new { r.Account, r.Department }).ToDictionary(g => g.Key, g => g.Sum(r => r.Amount))
-                : baseRecords.GroupBy(r => r.Account).ToDictionary(g => new { Account = g.Key, Department = (string)null }, g => g.Sum(r => r.Amount));
-
-            var targetGroups = includeDepartment
-                ? targetRecords.GroupBy(r => new { r.Account, r.Department }).ToDictionary(g => g.Key, g => g.Sum(r => r.Amount))
-                : targetRecords.GroupBy(r => r.Account).ToDictionary(g => new { Account = g.Key, Department = (string)null }, g => g.Sum(r => r.Amount));
-
-            // Find all unique account/department combinations
-            var allKeys = baseGroups.Keys.Union(targetGroups.Keys).ToList();
-
-            foreach (var key in allKeys)
+            if (includeDepartment)
             {
-                var baseAmount = baseGroups.GetValueOrDefault(key, 0);
-                var targetAmount = targetGroups.GetValueOrDefault(key, 0);
-                var delta = targetAmount - baseAmount;
-                var percentage = baseAmount != 0 ? (delta / baseAmount) * 100 : 0;
+                // Group by both Account and Department
+                var baseGroups = baseRecords.GroupBy(r => new { r.Account, r.Department }).ToDictionary(g => g.Key, g => g.Sum(r => r.Amount));
+                var targetGroups = targetRecords.GroupBy(r => new { r.Account, r.Department }).ToDictionary(g => g.Key, g => g.Sum(r => r.Amount));
+                var allKeys = baseGroups.Keys.Union(targetGroups.Keys).ToList();
 
-                comparison.Add(new ScenarioComparisonDto
+                foreach (var key in allKeys)
                 {
-                    Account = key.Account,
-                    Department = key.Department,
-                    BaseAmount = baseAmount,
-                    TargetAmount = targetAmount,
-                    Delta = delta,
-                    Percentage = Math.Round(percentage, 2)
-                });
+                    var baseAmount = baseGroups.GetValueOrDefault(key, 0);
+                    var targetAmount = targetGroups.GetValueOrDefault(key, 0);
+                    var delta = targetAmount - baseAmount;
+                    var percentage = baseAmount != 0 ? (delta / baseAmount) * 100 : 0;
+
+                    comparison.Add(new ScenarioComparisonDto
+                    {
+                        Account = key.Account,
+                        Department = key.Department,
+                        BaseAmount = baseAmount,
+                        TargetAmount = targetAmount,
+                        Delta = delta,
+                        Percentage = Math.Round(percentage, 2)
+                    });
+                }
+            }
+            else
+            {
+                // Group by Account only
+                var baseGroups = baseRecords.GroupBy(r => r.Account).ToDictionary(g => g.Key, g => g.Sum(r => r.Amount));
+                var targetGroups = targetRecords.GroupBy(r => r.Account).ToDictionary(g => g.Key, g => g.Sum(r => r.Amount));
+                var allKeys = baseGroups.Keys.Union(targetGroups.Keys).ToList();
+
+                foreach (var account in allKeys)
+                {
+                    var baseAmount = baseGroups.GetValueOrDefault(account, 0);
+                    var targetAmount = targetGroups.GetValueOrDefault(account, 0);
+                    var delta = targetAmount - baseAmount;
+                    var percentage = baseAmount != 0 ? (delta / baseAmount) * 100 : 0;
+
+                    comparison.Add(new ScenarioComparisonDto
+                    {
+                        Account = account,
+                        Department = null,
+                        BaseAmount = baseAmount,
+                        TargetAmount = targetAmount,
+                        Delta = delta,
+                        Percentage = Math.Round(percentage, 2)
+                    });
+                }
             }
 
             return comparison.OrderBy(c => c.Account).ThenBy(c => c.Department).ToList();

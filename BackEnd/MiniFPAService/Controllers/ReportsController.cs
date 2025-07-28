@@ -36,15 +36,16 @@ namespace MiniFPAService.Controllers
         public async Task<IActionResult> GetDrilldown(
             [FromQuery] string scenario,
             [FromQuery] string account,
-            [FromQuery] string period,
-            [FromQuery] string department = null)
+            [FromQuery] DateTime? fromDate,
+            [FromQuery] DateTime? toDate,
+            [FromQuery] string? department = null)
         {
-            if (string.IsNullOrEmpty(scenario) || string.IsNullOrEmpty(account) || string.IsNullOrEmpty(period))
+            if (string.IsNullOrEmpty(scenario) || string.IsNullOrEmpty(account))
             {
-                return BadRequest("Scenario, Account, and Period parameters are required.");
+                return BadRequest("Scenario and Account parameters are required.");
             }
 
-            var records = await _service.GetDrilldownAsync(scenario, account, period, department);
+            var records = await _service.GetDrilldownAsync(scenario, account, fromDate, toDate, department);
             return Ok(records);
         }
 
@@ -108,7 +109,8 @@ namespace MiniFPAService.Controllers
         public async Task<IActionResult> CompareScenarios(
             [FromQuery] string baseScenario,
             [FromQuery] string targetScenario,
-            [FromQuery] string period,
+            [FromQuery] DateTime? fromDate,
+            [FromQuery] DateTime? toDate,
             [FromQuery] bool includeDepartment = false)
         {
             if (string.IsNullOrEmpty(baseScenario) || string.IsNullOrEmpty(targetScenario))
@@ -116,12 +118,7 @@ namespace MiniFPAService.Controllers
                 return BadRequest("Both base and target scenarios are required.");
             }
 
-            if (string.IsNullOrEmpty(period))
-            {
-                return BadRequest("Period parameter is required (e.g., '2024-07').");
-            }
-
-            var comparison = await _service.CompareScenarios(baseScenario, targetScenario, period, includeDepartment);
+            var comparison = await _service.CompareScenarios(baseScenario, targetScenario, fromDate, toDate, includeDepartment);
             return Ok(comparison);
         }
     }
