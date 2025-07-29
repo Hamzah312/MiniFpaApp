@@ -83,8 +83,8 @@ namespace MiniFPAService.Controllers
         // GET: api/reports/monthly
         [HttpGet("monthly")]
         public async Task<IActionResult> GetMonthly(
-            [FromQuery] string account,
-            [FromQuery] string scenario)
+            [FromQuery] string? account,
+            [FromQuery] string? scenario)
         {
             var records = await _service.GetAllAsync();
 

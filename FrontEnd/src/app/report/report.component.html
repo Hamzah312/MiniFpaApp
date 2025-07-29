@@ -363,17 +363,17 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="difference">
+                <ng-container matColumnDef="delta">
                   <th mat-header-cell *matHeaderCellDef>Difference</th>
-                  <td mat-cell *matCellDef="let element" [class.negative]="element.difference < 0" [class.positive]="element.difference > 0">
-                    {{ element.difference | currency }}
+                  <td mat-cell *matCellDef="let element" [class.negative]="element.delta < 0" [class.positive]="element.delta > 0">
+                    {{ element.delta | currency }}
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="percentageChange">
+                <ng-container matColumnDef="percentage">
                   <th mat-header-cell *matHeaderCellDef>% Change</th>
-                  <td mat-cell *matCellDef="let element" [class.negative]="element.percentageChange < 0" [class.positive]="element.percentageChange > 0">
-                    {{ element.percentageChange | number:'1.2-2' }}%
+                  <td mat-cell *matCellDef="let element" [class.negative]="element.percentage < 0" [class.positive]="element.percentage > 0">
+                    {{ element.percentage | number:'1.2-2' }}%
                   </td>
                 </ng-container>
 

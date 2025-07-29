@@ -45,8 +45,8 @@ interface ComparisonReport {
   department: string;
   baseAmount: number;
   targetAmount: number;
-  difference: number;
-  percentageChange: number;
+  delta: number;
+  percentage: number;
 }
 
 @Component({
@@ -97,7 +97,8 @@ export class ReportComponent implements OnInit {
   summaryColumns = ['account', 'department', 'scenario', 'totalAmount'];
   monthlyColumns = ['month', 'total'];
   drilldownColumns = ['account', 'period', 'amount', 'department'];
-  comparisonColumns = ['account', 'department', 'baseAmount', 'targetAmount', 'difference', 'percentageChange'];
+  comparisonColumns = ['account', 'department', 'baseAmount', 'targetAmount', 'delta', 'percentage'];
+
 
   constructor(
     private fb: FormBuilder,
@@ -187,28 +188,32 @@ export class ReportComponent implements OnInit {
   generateMonthlyReport() {
     this.isLoadingMonthly.set(true);
     const params = this.monthlyForm.value;
-    
+
     const queryParams = new URLSearchParams();
     Object.keys(params).forEach(key => {
       if (params[key]) queryParams.append(key, params[key]);
     });
 
-    const url = `${API.REPORTS_MONTHLY}?${queryParams.toString()}`;
+    // Check if queryParams has any value to append
+    const url = queryParams.toString()
+        ? `${API.REPORTS_MONTHLY}?${queryParams.toString()}`
+        : `${API.REPORTS_MONTHLY}`;
 
     this.http.get<MonthlyReport[]>(url)
-      .pipe(finalize(() => this.isLoadingMonthly.set(false)))
-      .subscribe({
-        next: (data) => {
-          this.monthlyData.set(data);
-          this.snackBar.open(`Monthly report generated with ${data.length} records`, 'Close', { duration: 3000 });
-        },
-        error: (error) => {
-          console.error('Error generating monthly report:', error);
-          this.snackBar.open('Failed to generate monthly report', 'Close', { duration: 3000 });
-          this.showMockMonthlyData();
-        }
-      });
+        .pipe(finalize(() => this.isLoadingMonthly.set(false)))
+        .subscribe({
+          next: (data) => {
+            this.monthlyData.set(data);
+            this.snackBar.open(`Monthly report generated with ${data.length} records`, 'Close', { duration: 3000 });
+          },
+          error: (error) => {
+            console.error('Error generating monthly report:', error);
+            this.snackBar.open('Failed to generate monthly report', 'Close', { duration: 3000 });
+            this.showMockMonthlyData();
+          }
+        });
   }
+
 
   generateDrilldownReport() {
     if (!this.drilldownForm.valid) return;
@@ -248,15 +253,18 @@ export class ReportComponent implements OnInit {
 
   generateComparisonReport() {
     if (!this.comparisonForm.valid) return;
-    
+
     this.isLoadingComparison.set(true);
     const params = this.comparisonForm.value;
-    
+
+    console.log('Form values:', params);  // Log form values for debugging
+
     const queryParams = new URLSearchParams();
     Object.keys(params).forEach(key => {
       if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
         if (key === 'fromDate' || key === 'toDate') {
-          // Format date as YYYY-MM-DD
+          // Log the formatted date for debugging
+          console.log(`Formatted date for ${key}:`, params[key]);
           const date = new Date(params[key]);
           queryParams.append(key, date.toISOString().split('T')[0]);
         } else {
@@ -266,20 +274,21 @@ export class ReportComponent implements OnInit {
     });
 
     const url = `${API.REPORTS_COMPARE}?${queryParams.toString()}`;
+    console.log('Generated URL:', url);  // Log the final URL to debug
 
     this.http.get<ComparisonReport[]>(url)
-      .pipe(finalize(() => this.isLoadingComparison.set(false)))
-      .subscribe({
-        next: (data) => {
-          this.comparisonData.set(data);
-          this.snackBar.open(`Comparison report generated with ${data.length} records`, 'Close', { duration: 3000 });
-        },
-        error: (error) => {
-          console.error('Error generating comparison report:', error);
-          this.snackBar.open('Failed to generate comparison report', 'Close', { duration: 3000 });
-          this.showMockComparisonData();
-        }
-      });
+        .pipe(finalize(() => this.isLoadingComparison.set(false)))
+        .subscribe({
+          next: (data) => {
+            this.comparisonData.set(data);
+            this.snackBar.open(`Comparison report generated with ${data.length} records`, 'Close', { duration: 3000 });
+          },
+          error: (error) => {
+            console.error('Error generating comparison report:', error);
+            this.snackBar.open('Failed to generate comparison report', 'Close', { duration: 3000 });
+            this.showMockComparisonData();
+          }
+        });
   }
 
   private showMockSummaryData() {
@@ -330,8 +339,8 @@ export class ReportComponent implements OnInit {
         department: 'Sales',
         baseAmount: 150000,
         targetAmount: 160000,
-        difference: 10000,
-        percentageChange: 6.67
+        delta: 10000,
+        percentage: 6.67
       }
     ];
     this.comparisonData.set(mockData);
